@@ -1,0 +1,22 @@
+#pragma kernel Update
+#pragma kernel Clear
+
+float4 _color;
+float2 _lastpos;
+float2 _pos;
+float _size;
+RWTexture2D<float4> _renderTex;
+
+[numthreads(8,8,1)]
+void Clear(uint3 id : SV_DispatchThreadID)
+{
+    _renderTex[id.xy] = float4(1, 1, 1, 1);
+}
+
+[numthreads(8,8,1)]
+void Update(uint3 id : SV_DispatchThreadID)
+{
+    // if the distance between this pixel and cursor point is less than size
+    if (length(id.xy - _pos) < _size)
+        _renderTex[id.xy] = _color; // draw
+}
