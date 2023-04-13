@@ -19,6 +19,9 @@ public class Pen : MonoBehaviour
     {
         _color = color;
         _threeDPen.SetColor(color);
+
+        // get the second material on this object and update it's color
+        GetComponent<Renderer>().materials[1].color = color;
     }
 
     private void Update()

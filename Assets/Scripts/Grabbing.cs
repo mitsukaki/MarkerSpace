@@ -15,6 +15,8 @@ public class Grabbing : MonoBehaviour
 
     private void Grab()
     {
+        Debug.Log("Grabbing");
+        
         if (_inRange.Count > 0)
         {
             // pick the closest object
