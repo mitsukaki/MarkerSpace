@@ -13,6 +13,8 @@ public class ThreeDPen : MonoBehaviour
 
     [SerializeField] private float _inkSize = 0.01f;
 
+    [SerializeField] private Color _inkColor = Color.black;
+
     private Vector3 _lastPosition;
 
     private LineRenderer _currentInk;
@@ -21,6 +23,11 @@ public class ThreeDPen : MonoBehaviour
     {
         _drawAction.performed += ctx => StartDrawing();
         _drawAction.canceled += ctx => EndDrawing();
+    }
+
+    public void SetColor(Color color)
+    {
+        _inkColor = color;
     }
 
     private void Update()
@@ -54,6 +61,9 @@ public class ThreeDPen : MonoBehaviour
         _currentInk = ink.GetComponent<LineRenderer>();
         _currentInk.startWidth = _inkSize;
         _currentInk.endWidth = _inkSize;
+
+        // create set the color
+        _currentInk.material.color = _inkColor;
 
         // add the first point to the line renderer
         _currentInk.positionCount++;

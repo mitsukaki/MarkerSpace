@@ -25,10 +25,23 @@ public class WalkLocomotion : MonoBehaviour
         // get the joystick input direction
         Vector2 direction = _walkAction.ReadValue<Vector2>();
 
-        // add force in the direction
+        // get the camera direction on the xz plane
+        Vector3 cameraDirection = new Vector3(
+            _camera.forward.x,
+            0,
+            _camera.forward.z
+        ).normalized;
+
+        // get the camera right on the xz plane
+        Vector3 cameraRight = new Vector3(
+            _camera.right.x,
+            0,
+            _camera.right.z
+        ).normalized;
+
+        // add force in the direction of input along the camera direction
         _rb.AddForce(
-            _camera.forward * direction.y * _speed +
-            _camera.right * direction.x * _speed,
+            (cameraDirection * direction.y + cameraRight * direction.x) * _speed,
             ForceMode.VelocityChange
         );
 

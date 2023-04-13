@@ -51,7 +51,7 @@ public class Whiteboard : MonoBehaviour
         Clear();
     }
 
-    public void Draw(Vector2 pos, Vector3 color, float brushSize)
+    public void Draw(Vector2 pos, Color color, float brushSize)
     {
         // if the distance from the last position to current is > 0.1
         if (Vector2.Distance(_lastpos, pos) > 0.1f)
@@ -64,7 +64,7 @@ public class Whiteboard : MonoBehaviour
         _drawComputeShader.SetFloats("_pos", pos.x, pos.y);
         _drawComputeShader.SetTexture(_updateFunc, "_renderTex", _renderTexture);
         _drawComputeShader.SetFloats(
-            "_color", color.x, color.y, color.z, 1f);
+            "_color", color.r, color.g, color.b, color.a);
         _drawComputeShader.Dispatch(
             _updateFunc,
             _renderTexture.width / 8,
@@ -79,9 +79,10 @@ public class Whiteboard : MonoBehaviour
     {
         // create the render texture
         _renderTexture = new RenderTexture(
-            (int)_dimensions.x,
-            (int)_dimensions.y,
-            24
+            (int)_dimensions.x + 1,
+            (int)_dimensions.y + 1,
+            16,
+            RenderTextureFormat.ARGB32
         );
         _renderTexture.filterMode = FilterMode.Point;
         _renderTexture.enableRandomWrite = true;

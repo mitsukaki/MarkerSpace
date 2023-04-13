@@ -11,6 +11,16 @@ public class Pen : MonoBehaviour
     // whiteboard layer
     [SerializeField] private LayerMask _layerMask;
 
+    [SerializeField] private Color _color;
+
+    [SerializeField] private ThreeDPen _threeDPen;
+
+    public void SetColor(Color color)
+    {
+        _color = color;
+        _threeDPen.SetColor(color);
+    }
+
     private void Update()
     {
         // debug draw the raycast
@@ -42,8 +52,8 @@ public class Pen : MonoBehaviour
             // draw on the whiteboard
             surface.Draw(
                 surface.GetPixelPos(new Vector2(-boardHit.x, boardHit.y)),
-                new Vector3(1f, 0f, 0f),
-                brushSize * scale
+                _color,
+                brushSize // * scale
             );
         }
     }
